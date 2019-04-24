@@ -14,6 +14,9 @@ type MainController struct {
  func (c *MainController) Get() {
 /* 	c.Data["Website"] = "beego.me"
 	c.Data["Email"] = "astaxie@gmail.com"  */
+
+// orm insert 操作
+
 /*	//有orm对象
 	o := orm.NewOrm()
 	// 有一个要插入数据的结构体对象
@@ -28,8 +31,11 @@ type MainController struct {
 		logs.Info("插入失败",err)
 		return
 		}*/
+
+// orm select 操作
+
 // 1.  有orm对象
-	o := orm.NewOrm()
+/*	o := orm.NewOrm()
 // 2. 查询的对象
 	user := models.User{}
 // 3. 指定查询对象字段
@@ -42,7 +48,29 @@ type MainController struct {
 	 	logs.Info( "查询失败" ,err)
 		 return
 	 }
-	logs.Info( "查询成功",user)
+	logs.Info( "查询成功",user)*/
+
+// orm update 操作
+// 1 要有orm对象
+	o := orm.NewOrm()
+// 2 需要更新的结构体对象
+	user := models.User{}
+// 3 查到需要更新的数据
+
+	user.Id = 1
+	err := o.Read(&user)
+
+// 4 给数据重新赋值
+	if err == nil {
+		user.Name = "111"
+		user.Pwd = "333"
+	}
+// 5 更新
+	_,err = o.Update(&user)
+	if err != nil{
+		logs.Info( "更新失败",err)
+		return
+	}
 
 	c.Data["data"] = "home页"
 	c.TplName = "test.html"
