@@ -28,11 +28,11 @@ type MainController struct {
 		logs.Info("插入失败",err)
 		return
 		}*/
-// 1  有orm对象
+// 1.  有orm对象
 	o := orm.NewOrm()
-// 2 查询的对象
+// 2. 查询的对象
 	user := models.User{}
-// 3 指定查询对象字段
+// 3. 指定查询对象字段
 //	user.Id = 1
 	user.Name = "233"
 
