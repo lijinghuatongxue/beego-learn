@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"class/models"
+//	"class/models"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
-	"github.com/astaxie/beego/orm"
+//	"github.com/astaxie/beego/logs"
+//	"github.com/astaxie/beego/orm"
 
 	//"github.com/astaxie/beego/logs"
 	//"github.com/astaxie/beego/orm"
@@ -94,8 +94,9 @@ type MainController struct {
 */
 
 
-/*	c.Data["data"] = "home页"
-	c.TplName = "test.html"*/
+//	c.Data["data"] = "home页"
+//	c.TplName = "test.html"
+    c.TplName = "register.html"
 } 
 
 func (c *MainController) Post() {
