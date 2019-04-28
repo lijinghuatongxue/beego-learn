@@ -1,9 +1,14 @@
 package controllers
 
 import (
-//	"class/models"
+	"class/models"
+
+	//	"class/models"
 	"github.com/astaxie/beego"
-//	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
+
+	//	"github.com/astaxie/beego/logs"
 //	"github.com/astaxie/beego/orm"
 
 	//"github.com/astaxie/beego/logs"
@@ -102,6 +107,35 @@ type MainController struct {
 func (c *MainController) Post() {
 /* 	 	c.Data["Website"] = "beego.me"
 		c.Data["Email"] = "astaxie@gmail.com"  */
-		c.Data["data"] = "abc页面"
-		c.TplName = "test.html"
+/*		c.Data["data"] = "abc页面"
+		c.TplName = "test.html"*/
+// 1.拿到数据
+	userName := c.GetString("userName")
+	pwd := c.GetString("pwd")
+// 2.对数据进行校验
+	if userName == "" || pwd  == "" {
+		logs.Info("数据不能为空")
+		c.Ctx.WriteString("数据不能为空")
+		c.Redirect("/register",302)
+		return
+	}
+// 3.插入数据库
+	o := orm.NewOrm()
+	user := models.User{}
+	user.Name = userName
+	user.Pwd = pwd
+	_,err := o.Insert(&user)
+	if err != nil{
+		logs.Info("插入数据库失败")
+		c.Redirect("/register",302)
+		return
+	}
+
+
+	//logs.Info(userName,pwd)
+
+// 4.返回登陆界面
+	c.Ctx.WriteString("注册成功")
+
+
 	}
