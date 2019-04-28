@@ -5,6 +5,9 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
+
+	//"github.com/astaxie/beego/logs"
+	//"github.com/astaxie/beego/orm"
 )
 
 type MainController struct {
@@ -75,12 +78,12 @@ type MainController struct {
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++   orm delete 操作
 
-// 有orm对象
+/*// 有orm对象
 	o := orm.NewOrm()
 // 删除的对象
 	user := models.User{}
 // 指定删除哪一条数据
-	user.Id = 1
+	user.Id = 2
 // 删除
 	_,err := o.Delete(&user)
 	if err != nil{
@@ -88,11 +91,11 @@ type MainController struct {
 		return
 	}
 //
+*/
 
 
-
-	c.Data["data"] = "home页"
-	c.TplName = "test.html"
+/*	c.Data["data"] = "home页"
+	c.TplName = "test.html"*/
 } 
 
 func (c *MainController) Post() {
