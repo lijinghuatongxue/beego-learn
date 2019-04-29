@@ -130,12 +130,36 @@ func (c *MainController) Post() {
 		c.Redirect("/register",302)
 		return
 	}
-
-
 	//logs.Info(userName,pwd)
 
 // 4.返回登陆界面
 	c.Ctx.WriteString("注册成功")
-
-
 	}
+func (c*MainController)ShowLogin(){
+	c.TplName = "login.html"
+}
+func (c*MainController)HandleLogin(){
+	//c.Ctx.WriteString("这是登陆界面的post")
+	// 1.拿到数据
+	userName := c.GetString("userName")
+	pwd := c.GetString("pwd")
+
+	// 2。 判断数据是否合法
+	if userName == ""|| pwd == ""{
+		logs.Info("输入不合法")
+		c.TplName = "login.html"
+		return
+	}
+	// 3。 查询账号密码是否正确
+	o := orm.NewOrm()
+	user := models.User{}
+	user.Name = userName
+	err := o.Read(&user,"Name")
+	if err != nil{
+		logs.Info("查询数据库失败")
+		c.TplName = "login.html"
+		return
+	}
+	// 4。跳转
+	c.Ctx.WriteString("欢迎回来～")
+}
