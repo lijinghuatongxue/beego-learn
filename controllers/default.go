@@ -159,7 +159,12 @@ func (c*MainController)HandleLogin(){
 	err := o.Read(&user,"Name")
 	if err != nil{
 		logs.Info("查询数据库失败")
+
+		//指定视图文件，可以传数据
+		//c.Data{}
 		c.TplName = "login.html"
+		//不可以传数据，但是速度快，有状态码
+		//c.Redirect("login",302)
 		return
 	}
 	// 4。跳转
