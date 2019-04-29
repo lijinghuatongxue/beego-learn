@@ -103,7 +103,7 @@ type MainController struct {
 //	c.TplName = "test.html"
     c.TplName = "register.html"
 } 
-
+//+++++++++++++++++++++++++++++++++++++++++++++++++ 注册页面
 func (c *MainController) Post() {
 /* 	 	c.Data["Website"] = "beego.me"
 		c.Data["Email"] = "astaxie@gmail.com"  */
@@ -135,6 +135,8 @@ func (c *MainController) Post() {
 // 4.返回登陆界面
 	c.Ctx.WriteString("注册成功")
 	}
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++ 登陆页面
 func (c*MainController)ShowLogin(){
 	c.TplName = "login.html"
 }
