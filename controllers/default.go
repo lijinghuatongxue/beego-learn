@@ -115,7 +115,7 @@ func (c *MainController) Post() {
 // 2.对数据进行校验
 	if userName == "" || pwd  == "" {
 		logs.Info("数据不能为空")
-		c.Ctx.WriteString("数据不能为空")
+		//c.Ctx.WriteString("数据不能为空")
 		c.Redirect("/register",302)
 		return
 	}
@@ -133,6 +133,7 @@ func (c *MainController) Post() {
 	//logs.Info(userName,pwd)
 
 // 4.返回登陆界面
+	c.Redirect("/login",302)
 	c.Ctx.WriteString("注册成功")
 	}
 
