@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"class/models"
+	_ "path/filepath"
 
-	//	"class/models"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
@@ -186,12 +186,37 @@ func (c*MainController)ShowAdd(){
 // 添加处理文章界面
 func (c*MainController)HandleAdd(){
 	// 1. 拿到数据
+/*	ArtiName := c.GetString("articleName")
+	Acount := c.GetString("content")*/
 	artiName := c.GetString("articleName")
-	Acount := c.GetString("content")
-	logs.Info(Acount,artiName)
+	artiContent := c.GetString("content")
+	//logs.Info(Acount,artiName)
+	f,h,err := c.GetFile("uploadname")
+	//f 暂时不用，先关闭
+	defer f.Close()
+	if err != nil{
+		logs.Info("上传文件失败")
+		return
+	}else {
+		c.SaveToFile("uploadname","./static/img/"+h.Filename)
+		logs.Info(artiName,artiContent)
+	}
 	//2. 判断数据是否为空
-
+	if artiName == "" || artiContent == ""{
+		logs.Info("文章标题不能为空")
+		return
+	}
 	// 3. 插入数据
-
+	o := orm.NewOrm()
+	arti := models.Article{}
+	arti.ArtiName = artiName
+	arti.Acontent = artiContent
+	arti.Aimg = "./static/img/"+h.Filename
+	_,err = o.Insert(&arti)
+	if err != nil {
+		logs.Info("文章插入数据库失败")
+		return
+	}
 	// 4.返回文章界面
+	c.Redirect("/index",302)
 }
