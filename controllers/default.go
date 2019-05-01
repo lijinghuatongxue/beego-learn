@@ -169,5 +169,11 @@ func (c*MainController)HandleLogin(){
 		return
 	}
 	// 4。跳转
-	c.Ctx.WriteString("欢迎回来～")
+	//c.Ctx.WriteString("欢迎回来～")
+	c.Redirect("/index",302)
+}
+
+func (c*MainController)ShowIndex(){
+	c.TplName = "index.html"
+
 }
