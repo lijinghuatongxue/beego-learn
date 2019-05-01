@@ -172,8 +172,26 @@ func (c*MainController)HandleLogin(){
 	//c.Ctx.WriteString("欢迎回来～")
 	c.Redirect("/index",302)
 }
-
+// 显示首页内容
 func (c*MainController)ShowIndex(){
 	c.TplName = "index.html"
 
+}
+
+// 显示添加文章界面
+func (c*MainController)ShowAdd(){
+	c.TplName = "add.html"
+}
+
+// 添加处理文章界面
+func (c*MainController)HandleAdd(){
+	// 1. 拿到数据
+	artiName := c.GetString("articleName")
+	Acount := c.GetString("content")
+	logs.Info(Acount,artiName)
+	//2. 判断数据是否为空
+
+	// 3. 插入数据
+
+	// 4.返回文章界面
 }
