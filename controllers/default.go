@@ -176,6 +176,18 @@ func (c*MainController)HandleLogin(){
 }
 // 显示首页内容
 func (c*MainController)ShowIndex(){
+	o :=orm.NewOrm()
+	//构建数组
+	var articles []models.Article
+	_,err := o.QueryTable("Article").All(&articles)
+	if err != nil{
+		logs.Info("查询所有文章失败")
+		return
+	}
+	// 打印拿到的是什么
+	logs.Info(articles)
+	// 传递拿到的数据
+	c.Data["articles"] = articles
 	c.TplName = "index.html"
 
 }
