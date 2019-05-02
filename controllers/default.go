@@ -329,7 +329,7 @@ func (c*MainController)HandleUpdate(){
 	// 3. 更新数据
 	o := orm.NewOrm()
 	arti := models.Article{Id:id}
-	err := o.Read(&arti)
+	err = o.Read(&arti)
 	if err != nil{
 		logs.Info("查询数据库错误")
 	}
