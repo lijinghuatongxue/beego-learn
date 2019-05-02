@@ -252,7 +252,7 @@ func (c*MainController)HandleAdd(){
 func (c*MainController)ShowContent(){
 	// 1.获取详情页
 	id,err := c.GetInt("id")
-	logs.Info("Id is ",id)
+	logs.Info("++++++++++++++++++ Id is ",id)
 	if err != nil{
 		logs.Info("获取文章id失败",err)
 		return
@@ -268,4 +268,82 @@ func (c*MainController)ShowContent(){
 	// 3.传递数据给视图
 	c.Data["article"] = arti
 	c.TplName = "content.html"
+}
+
+// 显示编辑界面
+
+func (c*MainController)ShowUpdate(){
+	id,err := c.GetInt("id")
+	logs.Info("++++++++++++++++++ Id is ",id)
+	if err != nil{
+		logs.Info("获取文章id失败",err)
+		return
+	}
+	//2. 数据库查询
+	o := orm.NewOrm()
+	arti := models.Article{Id:id}
+	err = o.Read(&arti)
+	if err != nil{
+		logs.Info("查询ID错误",err)
+		return
+	}
+	// 3.传递数据给视图
+	c.Data["article"] = arti
+	c.TplName = "update.html"
+}
+// 处理更新业务代码
+func (c*MainController)HandleUpdate(){
+	// 1. 拿到数据
+	id,_ := c.GetInt("id")
+	articleName := c.GetString("articleName")
+	content := c.GetString("content")
+	// 获取图片
+	f,h,err := c.GetFile("uploadname")
+	var filename string
+	if err != nil{
+		logs.Info("上传文件失败")
+		return
+	}else {
+		//f 暂时不用，先关闭
+		defer f.Close()
+		//+++++++++++++++++++++++++++++++++++++++++++++++++  图片处理
+		// 打印图片后缀
+		fileext := path.Ext(h.Filename)
+		logs.Info(fileext)
+		// 图片大小限制
+		if h.Size > 5000000000 {
+			logs.Info("上传文件过大")
+			return
+		}
+		// 上传文件重命名，防止重复
+		// 2006-01-02 15:04:05 是golang语言诞生时间
+		filename = time.Now().Format("2006-01-02 15:04:05")+fileext
+		c.SaveToFile("uploadname","./static/img/"+filename)
+		//logs.Info(artiName,artiContent)
+	}
+	// 2. 对数据进行处理
+	if articleName == "" || content == ""{
+		logs.Info("更新数据获取失败")
+		return
+	}
+	// 3. 更新数据
+	o := orm.NewOrm()
+	arti := models.Article{Id:id}
+	err := o.Read(&arti)
+	if err != nil{
+		logs.Info("查询数据库错误")
+	}
+	arti.ArtiName = articleName
+	arti.Acontent = content
+	arti.Aimg = "./static/img/"+filename
+
+	_,err = o.Update(&arti,"ArtiName","Acontent","Aimg")
+	if err != nil{
+		logs.Info("更新数据库失败")
+		return
+	}
+
+	// 4. 返回列表数据
+	c.Redirect("/index",302)
+
 }
