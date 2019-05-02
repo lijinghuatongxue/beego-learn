@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"class/models"
+	"path"
 	_ "path/filepath"
+	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
@@ -194,11 +196,24 @@ func (c*MainController)HandleAdd(){
 	f,h,err := c.GetFile("uploadname")
 	//f 暂时不用，先关闭
 	defer f.Close()
+	//+++++++++++++++++++++++++++++++++++++++++++++++++  图片处理
+	// 打印图片后缀
+	fileext := path.Ext(h.Filename)
+	logs.Info(fileext)
+	// 图片大小限制
+	if h.Size > 5000000000 {
+		logs.Info("上传文件过大")
+		return
+	}
+	// 上传文件重命名，防止重复
+	// 2006-01-02 15:04:05 是golang语言诞生时间
+	filename := time.Now().Format("2006-01-02 15:04:05")+fileext
+
 	if err != nil{
 		logs.Info("上传文件失败")
 		return
 	}else {
-		c.SaveToFile("uploadname","./static/img/"+h.Filename)
+		c.SaveToFile("uploadname","./static/img/"+filename)
 		logs.Info(artiName,artiContent)
 	}
 	//2. 判断数据是否为空
@@ -211,7 +226,7 @@ func (c*MainController)HandleAdd(){
 	arti := models.Article{}
 	arti.ArtiName = artiName
 	arti.Acontent = artiContent
-	arti.Aimg = "./static/img/"+h.Filename
+	arti.Aimg = "./static/img/"+filename
 	_,err = o.Insert(&arti)
 	if err != nil {
 		logs.Info("文章插入数据库失败")
