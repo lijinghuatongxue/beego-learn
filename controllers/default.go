@@ -247,3 +247,8 @@ func (c*MainController)HandleAdd(){
 	// 4.返回文章界面
 	c.Redirect("/index",302)
 }
+
+// 显示内容详情页
+func (c*MainController)ShowContent(){
+	c.TplName = "content.html"
+}

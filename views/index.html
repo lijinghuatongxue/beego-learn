@@ -58,7 +58,7 @@
                 <tr>
                     {{/*这里的ArtiName和Atime 和models.go 对应*/}}
                     <td>{{.ArtiName}}</td>
-                    <td><a href="#">查看详情</a></td>
+                    <td><a href="/content?id={{.Id}}">查看详情</a></td>
                     {{/*时间显示优化*/}}
                     <td>{{.Atime.Format "2006-01-02 15:03:04"}}</td>
                     <td>{{.Acount}}</td>
