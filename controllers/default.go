@@ -226,7 +226,7 @@ func (c*MainController)HandleAdd(){
 		return
 	}else {
 		c.SaveToFile("uploadname","./static/img/"+filename)
-		logs.Info(artiName,artiContent)
+		//logs.Info(artiName,artiContent)
 	}
 	//2. 判断数据是否为空
 	if artiName == "" || artiContent == ""{
@@ -250,5 +250,22 @@ func (c*MainController)HandleAdd(){
 
 // 显示内容详情页
 func (c*MainController)ShowContent(){
+	// 1.获取详情页
+	id,err := c.GetInt("id")
+	logs.Info("Id is ",id)
+	if err != nil{
+		logs.Info("获取文章id失败",err)
+		return
+	}
+	//2. 数据库查询
+	o := orm.NewOrm()
+	arti := models.Article{Id:id}
+	err = o.Read(&arti)
+	if err != nil{
+		logs.Info("查询ID错误",err)
+		return
+	}
+	// 3.传递数据给视图
+	c.Data["article"] = arti
 	c.TplName = "content.html"
 }
