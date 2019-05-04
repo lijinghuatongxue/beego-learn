@@ -347,3 +347,23 @@ func (c*MainController)HandleUpdate(){
 	c.Redirect("/index",302)
 
 }
+// 删除文章业务
+func (c*MainController) HandleDelete(){
+	// 拿到数据
+	id,err := c.GetInt("id")
+	if err != nil{
+		logs.Info("获取id数据失败")
+		return
+	}
+	// 执行删除操作
+	o := orm.NewOrm()
+	arti := models.Article{Id:id}
+	err = o.Read(&arti)
+	if err != nil{
+		logs.Info("查询错误")
+		return
+	}
+	o.Delete(&arti)
+	// 返回列表页
+	c.Redirect("/index",302)
+}
