@@ -2,130 +2,141 @@ package controllers
 
 import (
 	"class/models"
-	"path"
-	_ "path/filepath"
-	"time"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
-
-	//	"github.com/astaxie/beego/logs"
-//	"github.com/astaxie/beego/orm"
-
-	//"github.com/astaxie/beego/logs"
-	//"github.com/astaxie/beego/orm"
+	"path"
+	"time"
 )
 
-type MainController struct {
-
+type ArticleController struct {
 	beego.Controller
 }
 
- func (c *MainController) Get() {
-/* 	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"  */
+func (this*ArticleController)ShowArticleList(){
+	// 有一个orm对象
+	o := orm.NewOrm()
+	qs := o.QueryTable("Article")
+	var articles[]models.Article
+	qs.All(&articles) //select * from Article
+	count ,err:=qs.Count()//返回数据条数
+	// 获取总页数
+	pageSize := 1
+	pageCount := float64(count)/float64(pageSize)
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++  orm insert 操作
+	if err != nil{
+		logs.Info("查询错误")
+		return
+	}
+	logs.Info("count=",count)
+
+	this.Data["count"] = count
+	this.Data["pageCount"] = pageCount
+}
+func (this*ArticleController) Get() {
+	/* 	c.Data["Website"] = "beego.me"
+	   	c.Data["Email"] = "astaxie@gmail.com"  */
+
+	// +++++++++++++++++++++++++++++++++++++++++++++++++  orm insert 操作
 
 	//有orm对象
-/*	o := orm.NewOrm()
-	// 有一个要插入数据的结构体对象
-	user := models.User{}
-	// 对结构体对象赋值
-	user.Name = "245"
-	user.Pwd = "278"
+	/*	o := orm.NewOrm()
+		// 有一个要插入数据的结构体对象
+		user := models.User{}
+		// 对结构体对象赋值
+		user.Name = "245"
+		user.Pwd = "278"
 
-	// 插入
-	_,err := o.Insert(&user)
-	if err != nil{
-		logs.Info("插入失败",err)
-		return
-		}*/
+		// 插入
+		_,err := o.Insert(&user)
+		if err != nil{
+			logs.Info("插入失败",err)
+			return
+			}*/
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++  orm select 操作
+	// +++++++++++++++++++++++++++++++++++++++++++++++++  orm select 操作
 
-// 1.  有orm对象
-/*	o := orm.NewOrm()
-// 2. 查询的对象
-	user := models.User{}
-// 3. 指定查询对象字段
-//	user.Id = 1
-	user.Name = "233"
+	// 1.  有orm对象
+	/*	o := orm.NewOrm()
+		// 2. 查询的对象
+			user := models.User{}
+		// 3. 指定查询对象字段
+		//	user.Id = 1
+			user.Name = "233"
 
-// 4 查询
-	err := o.Read(&user,"Name")
-	 	if err != nil {
-	 	logs.Info( "查询失败" ,err)
-		 return
-	 }
-	logs.Info( "查询成功",user)*/
+		// 4 查询
+			err := o.Read(&user,"Name")
+			 	if err != nil {
+			 	logs.Info( "查询失败" ,err)
+				 return
+			 }
+			logs.Info( "查询成功",user)*/
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++   orm update 操作
-// 1 要有orm对象
-/*	o := orm.NewOrm()
-// 2 需要更新的结构体对象
-	user := models.User{}
-// 3 查到需要更新的数据
+	// +++++++++++++++++++++++++++++++++++++++++++++++++   orm update 操作
+	// 1 要有orm对象
+	/*	o := orm.NewOrm()
+		// 2 需要更新的结构体对象
+			user := models.User{}
+		// 3 查到需要更新的数据
 
-	user.Id = 1
-	err := o.Read(&user)
+			user.Id = 1
+			err := o.Read(&user)
 
-// 4 给数据重新赋值
-	if err == nil {
-		user.Name = "121"
-		// 如果只更新name的话，就把下面的注释掉，程序依旧可行
-		user.Pwd = "333"
-	}
-// 5 更新
-	_,err = o.Update(&user)
-	if err != nil{
-		logs.Info( "更新失败",err)
-		return
-	}*/
+		// 4 给数据重新赋值
+			if err == nil {
+				user.Name = "121"
+				// 如果只更新name的话，就把下面的注释掉，程序依旧可行
+				user.Pwd = "333"
+			}
+		// 5 更新
+			_,err = o.Update(&user)
+			if err != nil{
+				logs.Info( "更新失败",err)
+				return
+			}*/
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++   orm delete 操作
+	//+++++++++++++++++++++++++++++++++++++++++++++++++   orm delete 操作
 
-/*// 有orm对象
-	o := orm.NewOrm()
-// 删除的对象
-	user := models.User{}
-// 指定删除哪一条数据
-	user.Id = 2
-// 删除
-	_,err := o.Delete(&user)
-	if err != nil{
-		logs.Info("删除失败",err)
-		return
-	}
-//
-*/
+	/*// 有orm对象
+	  	o := orm.NewOrm()
+	  // 删除的对象
+	  	user := models.User{}
+	  // 指定删除哪一条数据
+	  	user.Id = 2
+	  // 删除
+	  	_,err := o.Delete(&user)
+	  	if err != nil{
+	  		logs.Info("删除失败",err)
+	  		return
+	  	}
+	  //
+	*/
 
 
-//	c.Data["data"] = "home页"
-//	c.TplName = "test.html"
-    c.TplName = "register.html"
+	//	c.Data["data"] = "home页"
+	//	c.TplName = "test.html"
+	this.TplName = "register.html"
 }
 
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++ 注册页面
-func (c *MainController) Post() {
-/* 	 	c.Data["Website"] = "beego.me"
-		c.Data["Email"] = "astaxie@gmail.com"  */
-/*		c.Data["data"] = "abc页面"
-		c.TplName = "test.html"*/
-// 1.拿到数据
-	userName := c.GetString("userName")
-	pwd := c.GetString("pwd")
-// 2.对数据进行校验
+func (this*ArticleController) Post() {
+	/* 	 	c.Data["Website"] = "beego.me"
+	c.Data["Email"] = "astaxie@gmail.com"  */
+	/*		c.Data["data"] = "abc页面"
+			c.TplName = "test.html"*/
+	// 1.拿到数据
+	userName := this.GetString("userName")
+	pwd := this.GetString("pwd")
+	// 2.对数据进行校验
 	if userName == "" || pwd  == "" {
 		logs.Info("数据不能为空")
 		//c.Ctx.WriteString("数据不能为空")
-		c.Redirect("/register",302)
+		this.Redirect("/register",302)
 		return
 	}
-// 3.插入数据库
+	// 3.插入数据库
 	o := orm.NewOrm()
 	user := models.User{}
 	user.Name = userName
@@ -133,30 +144,30 @@ func (c *MainController) Post() {
 	_,err := o.Insert(&user)
 	if err != nil{
 		logs.Info("插入数据库失败")
-		c.Redirect("/register",302)
+		this.Redirect("/register",302)
 		return
 	}
 	//logs.Info(userName,pwd)
 
-// 4.返回登陆界面
-	c.Redirect("/login",302)
-	c.Ctx.WriteString("注册成功")
-	}
+	// 4.返回登陆界面
+	this.Redirect("/login",302)
+	this.Ctx.WriteString("注册成功")
+}
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++ 登陆页面
-func (c*MainController)ShowLogin(){
-	c.TplName = "login.html"
+func (this*ArticleController)ShowLogin(){
+	this.TplName = "login.html"
 }
-func (c*MainController)HandleLogin(){
+func (this*ArticleController)HandleLogin(){
 	//c.Ctx.WriteString("这是登陆界面的post")
 	// 1.拿到数据
-	userName := c.GetString("userName")
-	pwd := c.GetString("pwd")
+	userName := this.GetString("userName")
+	pwd := this.GetString("pwd")
 
 	// 2。 判断数据是否合法
 	if userName == ""|| pwd == ""{
 		logs.Info("输入不合法")
-		c.TplName = "login.html"
+		this.TplName = "login.html"
 		return
 	}
 	// 3。 查询账号密码是否正确
@@ -169,17 +180,17 @@ func (c*MainController)HandleLogin(){
 
 		//指定视图文件，可以传数据
 		//c.Data{}
-		c.TplName = "login.html"
+		this.TplName = "login.html"
 		//不可以传数据，但是速度快，有状态码
 		//c.Redirect("login",302)
 		return
 	}
 	// 4。跳转
 	//c.Ctx.WriteString("欢迎回来～")
-	c.Redirect("/index",302)
+	this.Redirect("/index",302)
 }
 // 显示首页内容
-func (c*MainController)ShowIndex(){
+func (this*ArticleController)ShowIndex(){
 	o :=orm.NewOrm()
 	//构建数组
 	var articles []models.Article
@@ -191,25 +202,25 @@ func (c*MainController)ShowIndex(){
 	// 打印拿到的是什么
 	logs.Info(articles)
 	// 传递拿到的数据
-	c.Data["articles"] = articles
-	c.TplName = "index.html"
+	this.Data["articles"] = articles
+	this.TplName = "index.html"
 
 }
 
 // 显示添加文章界面
-func (c*MainController)ShowAdd(){
-	c.TplName = "add.html"
+func (this*ArticleController)ShowAdd(){
+	this.TplName = "add.html"
 }
 
 // 添加处理文章界面
-func (c*MainController)HandleAdd(){
+func (this*ArticleController)HandleAdd(){
 	// 1. 拿到数据
-/*	ArtiName := c.GetString("articleName")
-	Acount := c.GetString("content")*/
-	artiName := c.GetString("articleName")
-	artiContent := c.GetString("content")
+	/*	ArtiName := c.GetString("articleName")
+		Acount := c.GetString("content")*/
+	artiName := this.GetString("articleName")
+	artiContent := this.GetString("content")
 	//logs.Info(Acount,artiName)
-	f,h,err := c.GetFile("uploadname")
+	f,h,err := this.GetFile("uploadname")
 	//f 暂时不用，先关闭
 	defer f.Close()
 	//+++++++++++++++++++++++++++++++++++++++++++++++++  图片处理
@@ -229,7 +240,7 @@ func (c*MainController)HandleAdd(){
 		logs.Info("上传文件失败")
 		return
 	}else {
-		c.SaveToFile("uploadname","./static/img/"+filename)
+		this.SaveToFile("uploadname","./static/img/"+filename)
 		//logs.Info(artiName,artiContent)
 	}
 	//2. 判断数据是否为空
@@ -249,13 +260,13 @@ func (c*MainController)HandleAdd(){
 		return
 	}
 	// 4.返回文章界面
-	c.Redirect("/index",302)
+	this.Redirect("/index",302)
 }
 
 // 显示内容详情页
-func (c*MainController)ShowContent(){
+func (this*ArticleController)ShowContent(){
 	// 1.获取详情页
-	id,err := c.GetInt("id")
+	id,err := this.GetInt("id")
 	logs.Info("++++++++++++++++++ Id is ",id)
 	if err != nil{
 		logs.Info("获取文章id失败",err)
@@ -270,14 +281,14 @@ func (c*MainController)ShowContent(){
 		return
 	}
 	// 3.传递数据给视图
-	c.Data["article"] = arti
-	c.TplName = "content.html"
+	this.Data["article"] = arti
+	this.TplName = "content.html"
 }
 
 // 显示编辑界面
 
-func (c*MainController)ShowUpdate(){
-	id,err := c.GetInt("id")
+func (this*ArticleController)ShowUpdate(){
+	id,err := this.GetInt("id")
 	logs.Info("++++++++++++++++++ Id is ",id)
 	if err != nil{
 		logs.Info("获取文章id失败",err)
@@ -292,17 +303,17 @@ func (c*MainController)ShowUpdate(){
 		return
 	}
 	// 3.传递数据给视图
-	c.Data["article"] = arti
-	c.TplName = "update.html"
+	this.Data["article"] = arti
+	this.TplName = "update.html"
 }
 // 处理更新业务代码
-func (c*MainController)HandleUpdate(){
+func (this*ArticleController)HandleUpdate(){
 	// 1. 拿到数据
-	id,_ := c.GetInt("id")
-	articleName := c.GetString("articleName")
-	content := c.GetString("content")
+	id,_ := this.GetInt("id")
+	articleName := this.GetString("articleName")
+	content := this.GetString("content")
 	// 获取图片
-	f,h,err := c.GetFile("uploadname")
+	f,h,err := this.GetFile("uploadname")
 	var filename string
 	if err != nil{
 		logs.Info("上传文件失败")
@@ -322,7 +333,7 @@ func (c*MainController)HandleUpdate(){
 		// 上传文件重命名，防止重复
 		// 2006-01-02 15:04:05 是golang语言诞生时间
 		filename = time.Now().Format("2006-01-02 15:04:05")+fileext
-		c.SaveToFile("uploadname","./static/img/"+filename)
+		this.SaveToFile("uploadname","./static/img/"+filename)
 		//logs.Info(artiName,artiContent)
 	}
 	// 2. 对数据进行处理
@@ -348,13 +359,13 @@ func (c*MainController)HandleUpdate(){
 	}
 
 	// 4. 返回列表数据
-	c.Redirect("/index",302)
+	this.Redirect("/index",302)
 
 }
 // 删除文章业务
-func (c*MainController) HandleDelete(){
+func (this*ArticleController) HandleDelete(){
 	// 拿到数据
-	id,err := c.GetInt("id")
+	id,err := this.GetInt("id")
 	if err != nil{
 		logs.Info("获取id数据失败")
 		return
@@ -369,5 +380,5 @@ func (c*MainController) HandleDelete(){
 	}
 	o.Delete(&arti)
 	// 返回列表页
-	c.Redirect("/index",302)
+	this.Redirect("/index",302)
 }
