@@ -17,4 +17,5 @@ func init() {
 	beego.Router("/update",&controllers.MainController{},"get:ShowUpdate;post:HandleUpdate")
 	beego.Router("/delete",&controllers.MainController{},"get:HandleDelete")
 	beego.Router("/showArticle",&controllers.MainController{})
+	beego.Router("/data", &controllers.DataController{})
 }
