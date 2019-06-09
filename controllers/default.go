@@ -377,28 +377,48 @@ type DataController struct {
 }
 
 type LIKE struct {
-	Host string
-	Setting string
-	Project string
+	Title string
+	Project []string
+	Configure string
+	Ssh_port string
+	Ip string
+	Service []string
+	Use_port []string
+	Ping string
+	Heathy string
+	Ssh string
 }
 
-type JSONS struct {
-	//必须的大写开头
-	Code string
-	Msg  string
-	User []string `json:"user_info"`//key重命名,最外面是反引号
-	Like LIKE
-}
+//type JSONS struct {
+//	//必须的大写开头
+//	Code string
+//	Msg  string
+//	User []string `json:"user_info"`//key重命名,最外面是反引号
+//	Like LIKE
+//}
 
+//func (c *DataController) Get() {
+//	data := &JSONS{
+//		"200",
+//		"获取成功",
+//		[]string{"maple","18"},
+//		LIKE{
+//			"192.168.0.17",
+//		    "2c4g100G标准硬盘",
+//		    "鸿蒙"}}
+//	c.Data["json"] = data
+//	c.ServeJSON()
+//}
 func (c *DataController) Get() {
-	data := &JSONS{
-		"200",
-		"获取成功",
-		[]string{"maple","18"},
-		LIKE{
-			"192.168.0.17",
-		"2c4g100G标准硬盘",
-		"鸿蒙"}}
+	data := &LIKE{
+			"esxi",
+			[]string{"鸿蒙","女我不甜","夸父"},
+			"2c4g100G标准硬盘",
+	        "232",
+			"192.168.0.23",
+			[]string{"tomcat","nginx"},
+			[]string{"443","80","8080"},"32","99","22",
+	}
 	c.Data["json"] = data
 	c.ServeJSON()
 }
